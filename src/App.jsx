@@ -1950,34 +1950,37 @@ export default function App() {
         );
         const data = await res.json();
 
-        setColmeias((prev) => {
-          const dadosMapeados = Array.isArray(data)
-            ? data.map((item) => ({
-                ...item,
-                temperaturaInterna: item.temperatura,
-                umidadeInterna: item.umidade,
-                temperaturaExterna: item.temperatura,
-                umidadeExterna: item.umidade,
-              }))
-            : [];
+       setColmeias((prev) => {
+        const dadosMapeados = Array.isArray(data)
+          ? data.map((item) => ({
+            ...item,
+              temperaturaInterna: item.temperaturaInterna ?? null,
+              umidadeInterna: item.umidadeInterna ?? null,
+              temperaturaExterna: item.temperaturaExterna ?? null,
+              umidadeExterna: item.umidadeExterna ?? null,
+              peso: item.peso ?? null,
+              bateria: item.bateria ?? null,
+            }))
+          : [];
 
-          const ultimo = dadosMapeados.length
-            ? dadosMapeados[dadosMapeados.length - 1]
-            : null;
+        const ultimo = dadosMapeados.length
+          ? dadosMapeados[dadosMapeados.length - 1]
+          : null;
 
-          return [
-            {
-              ...prev[0],
-                historico: dadosMapeados,
-                temperaturaInterna: ultimo ? ultimo.temperaturaInterna : null,
-                umidadeInterna: ultimo ? ultimo.umidadeInterna : null,
-                temperaturaExterna: ultimo ? ultimo.temperaturaExterna : null,
-                umidadeExterna: ultimo ? ultimo.umidadeExterna : null,
-                peso: ultimo ? ultimo.peso : null,
-                bateria: ultimo ? ultimo.bateria : null,
-              },
-            ];
-          });
+  return [
+    {
+      ...prev[0],
+      historico: dadosMapeados,
+      temperaturaInterna: ultimo ? ultimo.temperaturaInterna : null,
+      umidadeInterna: ultimo ? ultimo.umidadeInterna : null,
+      temperaturaExterna: ultimo ? ultimo.temperaturaExterna : null,
+      umidadeExterna: ultimo ? ultimo.umidadeExterna : null,
+      peso: ultimo ? ultimo.peso : null,
+      bateria: ultimo ? ultimo.bateria : null,
+    },
+  ];
+});
+
       } catch (erro) {
         console.error("Erro ao buscar dados do backend:", erro);
       }
@@ -2310,7 +2313,7 @@ export default function App() {
               <MetricCard
                 titulo="Temperatura interna"
                 valor={
-                  colmeiaSelecionada.temperaturaInterna !== null
+                  colmeiaSelecionada.temperaturaInterna != null
                     ? `${colmeiaSelecionada.temperaturaInterna} °C`
                     : "--"
                 }
@@ -2320,7 +2323,7 @@ export default function App() {
               <MetricCard
                 titulo="Umidade interna"
                 valor={
-                  colmeiaSelecionada.umidadeInterna !== null
+                  colmeiaSelecionada.umidadeInterna != null
                     ? `${colmeiaSelecionada.umidadeInterna} %`
                     : "--"
                 }
@@ -2343,7 +2346,7 @@ export default function App() {
               <MetricCard
                 titulo="Temperatura externa"
                 valor={
-                  colmeiaSelecionada.temperaturaExterna !== null
+                  colmeiaSelecionada.temperaturaExterna != null
                     ? `${colmeiaSelecionada.temperaturaExterna} °C`
                     : "--"
                 }
@@ -2353,7 +2356,7 @@ export default function App() {
               <MetricCard
                 titulo="Umidade externa"
                 valor={
-                  colmeiaSelecionada.umidadeExterna !== null
+                  colmeiaSelecionada.umidadeExterna != null
                     ? `${colmeiaSelecionada.umidadeExterna} %`
                     : "--"
                 }
@@ -2376,7 +2379,7 @@ export default function App() {
               <MetricCard
                 titulo="Peso"
                 valor={
-                  colmeiaSelecionada.peso !== null
+                  colmeiaSelecionada.peso != null
                     ? `${colmeiaSelecionada.peso} kg`
                     : "--"
                 }
@@ -2385,7 +2388,7 @@ export default function App() {
               <MetricCard
                 titulo="Bateria"
                 valor={
-                  colmeiaSelecionada.bateria !== null
+                  colmeiaSelecionada.bateria != null
                     ? `${colmeiaSelecionada.bateria} V`
                     : "--"
                 }
