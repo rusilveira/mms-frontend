@@ -1951,21 +1951,33 @@ export default function App() {
         const data = await res.json();
 
         setColmeias((prev) => {
-          const ultimo = data?.length ? data[data.length - 1] : null;
+          const dadosMapeados = Array.isArray(data)
+            ? data.map((item) => ({
+                ...item,
+                temperaturaInterna: item.temperatura,
+                umidadeInterna: item.umidade,
+                temperaturaExterna: item.temperatura,
+                umidadeExterna: item.umidade,
+              }))
+            : [];
+
+          const ultimo = dadosMapeados.length
+            ? dadosMapeados[dadosMapeados.length - 1]
+            : null;
 
           return [
             {
               ...prev[0],
-              historico: data,
-              temperaturaInterna: ultimo ? ultimo.temperaturaInterna : null,
-              umidadeInterna: ultimo ? ultimo.umidadeInterna : null,
-              temperaturaExterna: ultimo ? ultimo.temperaturaExterna : null,
-              umidadeExterna: ultimo ? ultimo.umidadeExterna : null,
-              peso: ultimo ? ultimo.peso : null,
-              bateria: ultimo ? ultimo.bateria : null,
-            },
-          ];
-        });
+                historico: dadosMapeados,
+                temperaturaInterna: ultimo ? ultimo.temperaturaInterna : null,
+                umidadeInterna: ultimo ? ultimo.umidadeInterna : null,
+                temperaturaExterna: ultimo ? ultimo.temperaturaExterna : null,
+                umidadeExterna: ultimo ? ultimo.umidadeExterna : null,
+                peso: ultimo ? ultimo.peso : null,
+                bateria: ultimo ? ultimo.bateria : null,
+              },
+            ];
+          });
       } catch (erro) {
         console.error("Erro ao buscar dados do backend:", erro);
       }
