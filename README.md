@@ -1,16 +1,101 @@
-# React + Vite
+# MMS Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Web dashboard for visualizing environmental data collected from IoT devices in the MMS monitoring system.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Overview
 
-## React Compiler
+This frontend provides the visualization layer of the MMS system, allowing users to monitor environmental readings through a web interface.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+It is designed to present sensor data in a clear and accessible way using cards, historical records and charts.
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Technologies
+
+- React
+- Vite
+- JavaScript
+- CSS
+
+---
+
+## Features
+
+- real-time data visualization
+- historical readings display
+- operational summary
+- charts for monitoring data behavior
+- integration with the MMS backend API
+- responsive interface for desktop and mobile access
+
+---
+
+## Project Structure
+
+- `src/` → application source code
+- `public/` → static assets
+- `package.json` → project dependencies and scripts
+- `vite.config.js` → Vite configuration
+
+---
+
+## Getting Started
+
+```bash
+git clone https://github.com/rusilveira/mms-frontend.git
+cd mms-frontend
+npm install
+npm run dev
+```
+Access the application at:
+http://localhost:5173
+
+---
+
+## Backend Integration
+
+This application consumes data from the MMS backend API.
+Make sure the backend is running before starting the frontend in local development.
+
+Example backend address:
+http://localhost:3000
+
+---
+
+## Deployment
+
+Production version:
+https://mms-frontend-ten.vercel.app
+
+---
+
+## Role in the System
+
+This repository represents the visualization layer of the MMS system, responsible for:
+
+- displaying readings collected by IoT devices
+- organizing environmental data into an accessible interface
+- supporting monitoring and analysis through charts and summaries
+
+--- 
+
+## Future Improvements
+
+- support for multiple monitored units
+- more advanced filtering options
+- improved mobile experience
+- connection status indicators
+- alert and notification features
+
+---
+
+## License
+
+This project is protected under a custom license.
+
+It is provided for viewing and educational purposes only.
+Unauthorized use, copying, modification, or distribution is strictly prohibited.
+
+See the LICENSE file for more details.
