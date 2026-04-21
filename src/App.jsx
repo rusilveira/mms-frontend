@@ -576,7 +576,8 @@ function filtrarHistorico(historico, periodo) {
 }
 
 function formatarHora(data) {
-  return data.toLocaleTimeString("pt-BR", {
+  return new Date(data).toLocaleTimeString("pt-BR", {
+    timeZone: "America/Sao_Paulo",
     hour: "2-digit",
     minute: "2-digit",
   });
@@ -1231,12 +1232,7 @@ function RenderGrafico({ tipo, dados, altura = 280, expandido = false }) {
             dataKey="dataCompleta"
             type="number"
             domain={["dataMin", "dataMax"]}
-            tickFormatter={(v) =>
-              new Date(v).toLocaleTimeString("pt-BR", {
-                hour: "2-digit",
-                minute: "2-digit",
-              })
-            }
+            tickFormatter={(v) => formatarHora(v) }
           />
 
           <YAxis {...eixoYProps} />
@@ -1954,6 +1950,7 @@ export default function App() {
         const dadosMapeados = Array.isArray(data)
           ? data.map((item) => ({
             ...item,
+              hora: formatarHora(item.dataCompleta),
               temperaturaInterna: item.temperaturaInterna ?? null,
               umidadeInterna: item.umidadeInterna ?? null,
               temperaturaExterna: item.temperaturaExterna ?? null,
