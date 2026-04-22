@@ -42,11 +42,11 @@ const CORES = {
 };
 
 const LIMITES = {
-  temperaturaInterna: { min: 28, max: 34 },
-  umidadeInterna: { min: 60, max: 85 },
-  temperaturaExterna: { min: 20, max: 40 },
-  umidadeExterna: { min: 30, max: 95 },
-  bateria: { critico: 3.5, atencao: 3.7 },
+  temperaturaInterna: { min: 30, max: 36 },
+  umidadeInterna: { min: 60, max: 80 },
+  temperaturaExterna: { min: 18, max: 38 },
+  umidadeExterna: { min: 35, max: 90 },
+  bateria: { critico: 3.4, atencao: 3.7 },
 };
 
 const STATUS_CORES = {
@@ -419,45 +419,23 @@ function getStatusMetrica(tipo, valor) {
   }
 
   if (tipo === "temperaturaInterna") {
-    if (
-      valor < LIMITES.temperaturaInterna.min ||
-      valor > LIMITES.temperaturaInterna.max
-    ) {
-      return "critico";
-    }
-    if (valor < 29 || valor > 33) return "atencao";
+    if (valor < 28 || valor > 38) return "critico";
+    if (valor < 30 || valor > 36) return "atencao";
     return "normal";
   }
 
   if (tipo === "umidadeInterna") {
-    if (
-      valor < LIMITES.umidadeInterna.min ||
-      valor > LIMITES.umidadeInterna.max
-    ) {
-      return "critico";
-    }
-    if (valor < 65 || valor > 80) return "atencao";
+    if (valor < 50 || valor > 90) return "critico";
+    if (valor < 60 || valor > 80) return "atencao";
     return "normal";
   }
 
   if (tipo === "temperaturaExterna") {
-    if (
-      valor < LIMITES.temperaturaExterna.min ||
-      valor > LIMITES.temperaturaExterna.max
-    ) {
-      return "critico";
-    }
-    if (valor < 22 || valor > 38) return "atencao";
+    if (valor < 18 || valor > 38) return "atencao";
     return "normal";
   }
 
   if (tipo === "umidadeExterna") {
-    if (
-      valor < LIMITES.umidadeExterna.min ||
-      valor > LIMITES.umidadeExterna.max
-    ) {
-      return "critico";
-    }
     if (valor < 35 || valor > 90) return "atencao";
     return "normal";
   }
@@ -1016,7 +994,7 @@ function HeaderSection({ colmeiasEmAlerta }) {
             Tempo real
           </div>
           <div style={S.headerBadge}>Alertas ativos: {colmeiasEmAlerta}</div>
-          <div style={S.headerBadge}>Atualização: 15 min</div>
+          <div style={S.headerBadge}>Ciclo do nó: 15 min</div>
         </div>
       </div>
     </header>
@@ -2089,7 +2067,8 @@ export default function App() {
     return colmeias.map((colmeia) => {
       const ultimaLeitura = colmeia.historico[colmeia.historico.length - 1] || {};
       const minutosSemAtualizar = diferencaMinutos(agora, ultimaLeitura?.dataCompleta);
-      const offline = minutosSemAtualizar > 1;
+      const LIMITE_OFFLINE_MIN = 20;
+      const offline = minutosSemAtualizar > LIMITE_OFFLINE_MIN;
 
       return {
         ...colmeia,
