@@ -2001,6 +2001,7 @@ export default function App() {
   const [periodoSelecionado, setPeriodoSelecionado] = useState("24h");
   const [dataInicio, setDataInicio] = useState(null);
   const [dataFim, setDataFim] = useState(null);
+  const [ultimaLeituraReal, setUltimaLeituraReal] = useState(null);
   const [menuAberto, setMenuAberto] = useState(false);
   const [modoTemperatura, setModoTemperatura] = useState("comparar");
   const [modoUmidade, setModoUmidade] = useState("comparar");
@@ -2021,10 +2022,12 @@ export default function App() {
         
         console.log("URL usada:", url);
 
-        const res = await fetch(url);
-        const data = await res.json();
-
-       setColmeias((prev) => {
+        const statusRes = await fetch(`${API_URL}/api/status`);
+        const statusData = await statusRes.json();
+        const leituraAtual = statusData?.ultimaLeitura || null;
+        setUltimaLeituraReal(leituraAtual);
+      
+        setColmeias((prev) => {
         const dadosMapeados = Array.isArray(data)
           ? data.map((item) => ({
             ...item,
@@ -2038,9 +2041,9 @@ export default function App() {
             }))
           : [];
 
-        const ultimo = dadosMapeados.length
+        const ultimo = leituraAtual || (dadosMapeados.length
           ? dadosMapeados[dadosMapeados.length - 1]
-          : null;
+          : null);
 
   return [
     {
@@ -2164,19 +2167,25 @@ export default function App() {
       : null;
 
   const statusColmeias = useMemo(() => {
-    return colmeias.map((colmeia) => {
-      const ultimaLeitura = colmeia.historico[colmeia.historico.length - 1] || {};
-      const minutosSemAtualizar = diferencaMinutos(agora, ultimaLeitura?.dataCompleta);
-      const LIMITE_OFFLINE_MIN = 20;
-      const offline = minutosSemAtualizar > LIMITE_OFFLINE_MIN;
+  return colmeias.map((colmeia) => {
+    const dataUltimaLeituraReal = ultimaLeituraReal?.dataCompleta;
+    const LIMITE_OFFLINE_MIN = 20;
 
-      return {
-        ...colmeia,
-        minutosSemAtualizar,
-        offline,
-      };
-    });
-  }, [colmeias, agora]);
+    const minutosSemAtualizar = dataUltimaLeituraReal
+      ? diferencaMinutos(agora, dataUltimaLeituraReal)
+      : 0;
+
+    const offline = dataUltimaLeituraReal
+      ? minutosSemAtualizar > LIMITE_OFFLINE_MIN
+      : false;
+
+    return {
+      ...colmeia,
+      minutosSemAtualizar,
+      offline,
+    };
+  });
+}, [colmeias, agora, ultimaLeituraReal]);
 
   const colmeiaSelecionadaStatus = statusColmeias[0];
 
