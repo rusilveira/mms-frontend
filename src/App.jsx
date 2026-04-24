@@ -2022,9 +2022,13 @@ export default function App() {
         
         console.log("URL usada:", url);
 
+        const res = await fetch(url);
+        const data = await res.json();
+
         const statusRes = await fetch(`${API_URL}/api/status`);
         const statusData = await statusRes.json();
         const leituraAtual = statusData?.ultimaLeitura || null;
+
         setUltimaLeituraReal(leituraAtual);
       
         setColmeias((prev) => {
