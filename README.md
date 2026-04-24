@@ -30,6 +30,10 @@ It presents sensor data in a clear and structured way using cards, historical re
 * automatic insight generation based on sensor data
 * backend API integration
 * responsive interface for desktop and mobile access
+* period filters for 24h, 7 days, 30 days and full history
+* custom date range filtering
+* adaptive chart axis formatting according to the selected period
+* date and time display in chart tooltips
 
 ---
 
@@ -150,7 +154,7 @@ This repository represents the **visualization layer** of the MMS system, respon
 * support for multiple monitored hives
 * configurable alert thresholds
 * push notifications and alert system
-* advanced filtering and analytics
+* daily aggregation and comparative analytics
 * improved mobile experience
 
 ---

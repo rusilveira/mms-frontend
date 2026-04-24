@@ -91,6 +91,7 @@ const OPCOES_PERIODO = [
   ["7d", "7 dias"],
   ["30d", "30 dias"],
   ["all", "Tudo"],
+  ["custom", "Personalizado"],
 ];
 
 const GRAFICOS = {
@@ -540,6 +541,8 @@ function periodoTexto(periodo) {
   if (periodo === "24h") return "24h";
   if (periodo === "7d") return "7 dias";
   if (periodo === "30d") return "30 dias";
+  if (periodo === "all") return "Completo";
+  if (periodo === "custom") return "Personalizado";
   return "Completo";
 }
 
@@ -559,6 +562,31 @@ function formatarHora(data) {
     hour: "2-digit",
     minute: "2-digit",
   });
+}
+function formatarDataCurta(data) {
+  return new Date(data).toLocaleDateString("pt-BR", {
+    timeZone: "America/Sao_Paulo",
+    day: "2-digit",
+    month: "2-digit",
+  });
+}
+
+function formatarDataHora(data) {
+  return new Date(data).toLocaleString("pt-BR", {
+    timeZone: "America/Sao_Paulo",
+    day: "2-digit",
+    month: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+}
+
+function formatarEixoTempo(data, periodo) {
+  if (periodo === "24h") {
+    return formatarHora(data);
+  }
+
+  return formatarDataCurta(data);
 }
 
 function gerarInsights(
@@ -1001,15 +1029,28 @@ function HeaderSection({ colmeiasEmAlerta }) {
   );
 }
 
-function ToolbarPeriodo({ periodoSelecionado, setPeriodoSelecionado }) {
+function ToolbarPeriodo({
+  periodoSelecionado,
+  setPeriodoSelecionado,
+  setDataInicio,
+  setDataFim,
+}) {
   return (
     <section style={S.toolbar}>
       <div style={S.periodoGroup}>
         <span style={S.periodoLabel}>Período:</span>
+
         {OPCOES_PERIODO.map(([valor, rotulo]) => (
           <button
             key={valor}
-            onClick={() => setPeriodoSelecionado(valor)}
+            onClick={() => {
+              setPeriodoSelecionado(valor);
+
+              if (valor !== "custom") {
+                setDataInicio(null);
+                setDataFim(null);
+              }
+            }}
             style={{
               ...S.periodoButton,
               ...(periodoSelecionado === valor ? S.periodoButtonAtivo : {}),
@@ -1018,6 +1059,49 @@ function ToolbarPeriodo({ periodoSelecionado, setPeriodoSelecionado }) {
             {rotulo}
           </button>
         ))}
+
+        {periodoSelecionado === "custom" && (
+          <div
+            style={{
+              display: "flex",
+              gap: "8px",
+              alignItems: "center",
+              marginLeft: "8px",
+              paddingLeft: "8px",
+              borderLeft: `1px solid ${CORES.borda}`,
+            }}
+          >
+            <input
+              type="date"
+              onChange={(e) => setDataInicio(e.target.value)}
+              style={{
+                border: `1px solid ${CORES.borda}`,
+                borderRadius: "10px",
+                padding: "7px 9px",
+                fontSize: "12px",
+                color: CORES.texto,
+                background: "#ffffff",
+              }}
+            />
+
+            <span style={{ fontSize: "12px", color: CORES.textoSecundario }}>
+              até
+            </span>
+
+            <input
+              type="date"
+              onChange={(e) => setDataFim(e.target.value)}
+              style={{
+                border: `1px solid ${CORES.borda}`,
+                borderRadius: "10px",
+                padding: "7px 9px",
+                fontSize: "12px",
+                color: CORES.texto,
+                background: "#ffffff",
+              }}
+            />
+          </div>
+        )}
       </div>
     </section>
   );
@@ -1082,7 +1166,7 @@ function CustomTooltip({
           textTransform: "uppercase",
         }}
       >
-        {label}
+        {formatarDataHora(label)}
       </div>
 
       <div
@@ -1136,7 +1220,7 @@ function CustomTooltip({
   );
 }
 
-function RenderGrafico({ tipo, dados, altura = 280, expandido = false }) {
+function RenderGrafico({ tipo, dados, periodoSelecionado, altura = 280, expandido = false }) {
   const config = GRAFICOS[tipo];
   if (!config) return null;
 
@@ -1187,7 +1271,7 @@ function RenderGrafico({ tipo, dados, altura = 280, expandido = false }) {
               const end = Math.max(refAreaLeft, refAreaRight);
 
               const newData = dados.filter((d) => {
-                const x = Number(d.dataCompleta);
+                const x = new Date(d.dataCompleta).getTime();
                 return x >= start && x <= end;
               });
 
@@ -1210,7 +1294,7 @@ function RenderGrafico({ tipo, dados, altura = 280, expandido = false }) {
             dataKey="dataCompleta"
             type="number"
             domain={["dataMin", "dataMax"]}
-            tickFormatter={(v) => formatarHora(v) }
+            tickFormatter={(v) => formatarEixoTempo(v, periodoSelecionado)}
           />
 
           <YAxis {...eixoYProps} />
@@ -1288,6 +1372,7 @@ function RenderGraficoComparativo({
   tipo,
   dados,
   modo,
+  periodoSelecionado,
   altura = 280,
   expandido = false,
 }) {
@@ -1411,7 +1496,11 @@ function RenderGraficoComparativo({
             dataKey="xGrafico"
             type="number"
             domain={[0, "dataMax"]}
-            tickFormatter={(value) => dadosGrafico[value]?.hora || ""}
+            tickFormatter={(value) =>
+              dadosGrafico[value] 
+                ? formatarEixoTempo(dadosGrafico[value].dataCompleta, periodoSelecionado) 
+                : ""
+            }
             tick={{ fontSize: mobile ? 10 : expandido ? 12 : 11, fill: "#64748b" }}
             axisLine={false}
             tickLine={false}
@@ -1516,7 +1605,9 @@ function RenderGraficoComparativo({
             fontWeight: 700,
           }}
         >
-          {dadosGrafico[label]?.hora || ""}
+          {dadosGrafico[label]
+          ? formatarDataHora(dadosGrafico[label].dataCompleta) 
+          : ""}
         </div>
 
         {unique.map((item, index) => (
@@ -1641,6 +1732,7 @@ function GraficoComparativoPanel({
   setModo,
   tipo,
   dados,
+  periodoSelecionado,
   statsInterna,
   statsExterna,
 }) {
@@ -1781,7 +1873,7 @@ function GraficoComparativoPanel({
         )}
       </div>
 
-      <RenderGraficoComparativo tipo={tipo} dados={dados} modo={modo} altura={360} />
+      <RenderGraficoComparativo tipo={tipo} dados={dados} modo={modo} periodoSelecionado={periodoSelecionado} altura={360} />
     </div>
   );
 }
@@ -1907,6 +1999,8 @@ export default function App() {
 
   const [graficoExpandido, setGraficoExpandido] = useState(null);
   const [periodoSelecionado, setPeriodoSelecionado] = useState("24h");
+  const [dataInicio, setDataInicio] = useState(null);
+  const [dataFim, setDataFim] = useState(null);
   const [menuAberto, setMenuAberto] = useState(false);
   const [modoTemperatura, setModoTemperatura] = useState("comparar");
   const [modoUmidade, setModoUmidade] = useState("comparar");
@@ -1919,9 +2013,15 @@ export default function App() {
   useEffect(() => {
     async function carregarDados() {
       try {
-        const res = await fetch(
-          `${API_URL}/api/readings?period=${periodoSelecionado}`
-        );
+        let url = `${API_URL}/api/readings?period=${periodoSelecionado}`;
+
+        if (periodoSelecionado === "custom" && dataInicio && dataFim) {
+          url = `${API_URL}/api/readings?start=${dataInicio}&end=${dataFim}`;
+        }
+        
+        console.log("URL usada:", url);
+
+        const res = await fetch(url);
         const data = await res.json();
 
        setColmeias((prev) => {
@@ -1965,7 +2065,7 @@ export default function App() {
     const intervalo = setInterval(carregarDados, INTERVALO_ATUALIZACAO);
 
     return () => clearInterval(intervalo);
-  }, [periodoSelecionado]);
+  }, [periodoSelecionado, dataInicio, dataFim]);
 
   useEffect(() => {
     document.body.style.margin = "0";
@@ -2225,6 +2325,8 @@ export default function App() {
         <ToolbarPeriodo
           periodoSelecionado={periodoSelecionado}
           setPeriodoSelecionado={setPeriodoSelecionado}
+          setDataInicio={setDataInicio}
+          setDataFim={setDataFim}
         />
 
         {colmeiaSelecionadaStatus?.offline && (
@@ -2382,6 +2484,7 @@ export default function App() {
             setModo={setModoTemperatura}
             tipo="temperatura"
             dados={historicoFiltrado}
+            periodoSelecionado={periodoSelecionado}
             onExpand={() => setGraficoExpandido("temperaturaComparativa")}
             statsInterna={statsTempInterna}
             statsExterna={statsTempExterna}
@@ -2394,6 +2497,7 @@ export default function App() {
             setModo={setModoUmidade}
             tipo="umidade"
             dados={historicoFiltrado}
+            periodoSelecionado={periodoSelecionado}
             onExpand={() => setGraficoExpandido("umidadeComparativa")}
             statsInterna={statsUmidadeInterna}
             statsExterna={statsUmidadeExterna}
@@ -2435,7 +2539,12 @@ export default function App() {
 
                     return (
                       <div key={index} className="mms-history-card">
-                        <div className="mms-history-card__time">{item.hora}</div>
+                        <div className="mms-history-card__time">
+                          {item.hora}
+                          <div style={{ fontSize: "11px", opacity: 0.7 }}>
+                            {new Date(item.dataCompleta).toLocaleDateString("pt-BR")}
+                          </div>
+                        </div>
 
                         <div className="mms-history-card__grid">
                           <div className="mms-history-card__item">
@@ -2564,7 +2673,12 @@ export default function App() {
 
                         return (
                           <tr key={index}>
-                            <td style={S.td}>{item.hora}</td>
+                            <td style={S.td}>
+                             <div style={{ fontWeight: 700 }}>{item.hora}</div> 
+                              <div style={{ fontSize: "11px", color: "#64748b", marginTop: "3px" }}>
+                                {formatarDataCurta(item.dataCompleta)}
+                              </div>
+                            </td>
                             <td style={S.td}>
                               <span style={getCellStatusStyle(statusTempInterna)}>
                                 {item.temperaturaInterna} °C
@@ -2764,6 +2878,7 @@ export default function App() {
                       tipo="temperatura"
                       dados={historicoFiltrado}
                       modo={modoTemperatura}
+                      periodoSelecionado={periodoSelecionado}
                       altura={440}
                       expandido={true}
                     />
@@ -2822,6 +2937,7 @@ export default function App() {
                       tipo="umidade"
                       dados={historicoFiltrado}
                       modo={modoUmidade}
+                      periodoSelecionado={periodoSelecionado}
                       altura={440}
                       expandido={true}
                     />
@@ -2887,6 +3003,7 @@ export default function App() {
                     <RenderGrafico
                       tipo={graficoExpandido}
                       dados={historicoFiltrado}
+                      periodoSelecionado={periodoSelecionado}
                       altura={440}
                       expandido={true}
                     />
