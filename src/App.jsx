@@ -800,7 +800,7 @@ function HeroSection({
     <section style={{ display: "block", marginBottom: "18px" }}>
       <div style={S.heroCard}>
         <p
-          className="mms-hero__label"
+          className="hive-plus-hero__label"
           style={{
             marginBottom: "10px",
             textAlign: "left",
@@ -830,7 +830,7 @@ function HeroSection({
             }}
           >
             <h2
-              className="mms-hero__value"
+              className="hive-plus-hero__value"
               style={{
                 margin: 0,
                 textAlign: "left",
@@ -845,7 +845,7 @@ function HeroSection({
             </h2>
 
             <p
-              className="mms-hero__sub"
+              className="hive-plus-hero__sub"
               style={{
                 marginTop: "2px",
                 marginBottom: 0,
@@ -968,7 +968,7 @@ function HeroSection({
 
 function HeaderSection({ colmeiasEmAlerta }) {
   return (
-    <header className="mms-header mms-header--compact">
+    <header className="hive-plus-header hive-plus-header--compact">
       <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
         <div
           style={{
@@ -1016,7 +1016,7 @@ function HeaderSection({ colmeiasEmAlerta }) {
           </div>
         </div>
 
-        <div className="mms-header-actions">
+        <div className="hive-plus-header-actions">
           <div style={S.headerBadge}>
             <span style={S.liveDot}></span>
             Tempo real
@@ -1737,9 +1737,9 @@ function GraficoComparativoPanel({
   statsExterna,
 }) {
   return (
-    <div className="mms-panel">
+    <div className="hive-plus-panel">
       <div
-        className="mms-panel__header"
+        className="hive-plus-panel__header"
         style={{
           alignItems: "center",
           justifyContent: "space-between",
@@ -1756,9 +1756,9 @@ function GraficoComparativoPanel({
             flex: 1,
           }}
         >
-          <div className="mms-title-row">
-            <span className="mms-title-row__accent"></span>
-            <h3 className="mms-title-row__text">{titulo}</h3>
+          <div className="hive-plus-title-row">
+            <span className="hive-plus-title-row__accent"></span>
+            <h3 className="hive-plus-title-row__text">{titulo}</h3>
           </div>
         </div>
 
@@ -1772,7 +1772,7 @@ function GraficoComparativoPanel({
           }}
         >
           <div
-            className="mms-compare-toggle"
+            className="hive-plus-compare-toggle"
             style={{
               display: "flex",
               gap: "6px",
@@ -1805,7 +1805,7 @@ function GraficoComparativoPanel({
             ))}
           </div>
 
-          <span className="mms-panel__tag">{tag}</span>
+          <span className="hive-plus-panel__tag">{tag}</span>
 
           <button style={S.expandButton} onClick={onExpand}>
             Expandir
@@ -1813,9 +1813,9 @@ function GraficoComparativoPanel({
         </div>
       </div>
 
-      <div className="mms-compare-stats">
+      <div className="hive-plus-compare-stats">
         {(modo === "interna" || modo === "comparar") && (
-          <div className="mms-compare-stat-card">
+          <div className="hive-plus-compare-stat-card">
             <span>
               {tipo === "temperatura"
                 ? "Temperatura interna"
@@ -1844,7 +1844,7 @@ function GraficoComparativoPanel({
         )}
 
         {(modo === "externa" || modo === "comparar") && (
-          <div className="mms-compare-stat-card">
+          <div className="hive-plus-compare-stat-card">
             <span>
               {tipo === "temperatura"
                 ? "Temperatura externa"
@@ -1883,7 +1883,7 @@ function MetricCard({ titulo, valor, destaque = false, status = null }) {
 
   return (
     <div
-      className="mms-metric-card"
+      className="hive-plus-metric-card"
       style={{
         ...S.metricCard,
         border: destaque ? "1px solid #fecaca" : `1px solid ${CORES.borda}`,
@@ -2271,10 +2271,10 @@ export default function App() {
   });
 
   return (
-    <div className={`mms-app ${layoutMobile ? "is-mobile" : ""}`}>
+    <div className={`hive-plus-app ${layoutMobile ? "is-mobile" : ""}`}>
       {layoutMobile && (
         <button
-          className="mms-menu-button"
+          className="hive-plus-menu-button"
           onClick={() => setMenuAberto(!menuAberto)}
         >
           {menuAberto ? "Fechar menu" : "Abrir menu"}
@@ -2282,16 +2282,16 @@ export default function App() {
       )}
 
       {(!layoutMobile || menuAberto) && (
-        <aside className="mms-sidebar">
+        <aside className="hive-plus-sidebar">
           <div>
-            <h1 className="mms-sidebar__title">MMS</h1>
-            <p className="mms-sidebar__subtitle">Sistema de Monitoramento</p>
+            <h1 className="hive-plus-sidebar__title">HIVE+</h1>
+            <p className="hive-plus-sidebar__subtitle">Sistema de Monitoramento</p>
           </div>
 
-          <div className="mms-sidebar__section">
-            <p className="mms-section-label">COLMEIA</p>
+          <div className="hive-plus-sidebar__section">
+            <p className="hive-plus-section-label">COLMEIA</p>
 
-            <div className="mms-colmeias-lista">
+            <div className="hive-plus-colmeias-lista">
               <div
                 style={{
                   ...S.sidebarCardBase,
@@ -2324,7 +2324,7 @@ export default function App() {
         </aside>
       )}
 
-      <main className="mms-main">
+      <main className="hive-plus-main">
         <HeaderSection colmeiasEmAlerta={colmeiasEmAlerta} />
 
         <HeroSection
@@ -2371,7 +2371,7 @@ export default function App() {
         )}
 
         {(alertaTemperatura || alertaBateria) && (
-          <section className="mms-alert-box">
+          <section className="hive-plus-alert-box">
             <strong>Atenção:</strong>{" "}
             {alertaTemperatura && "temperatura interna acima do ideal. "}
             {alertaBateria && "bateria abaixo do nível recomendado."}
@@ -2380,24 +2380,24 @@ export default function App() {
 
         <section style={{ marginBottom: "10px", marginTop: "10px" }}>
           <div style={{ marginBottom: "18px" }}>
-            <div className="mms-unified-title">
-              <span className="mms-unified-title__dot"></span>
-              <h3 className="mms-unified-title__text is-section">
+            <div className="hive-plus-unified-title">
+              <span className="hive-plus-unified-title__dot"></span>
+              <h3 className="hive-plus-unified-title__text is-section">
                 Condições atuais da colmeia
               </h3>
             </div>
           </div>
         </section>
 
-        <section className="mms-reading-groups">
-          <div className="mms-reading-group">
-            <div className="mms-reading-group__header">
-              <div className="mms-unified-title">
-                <span className="mms-unified-title__dot"></span>
-                <h4 className="mms-unified-title__text is-group">Ambiente interno</h4>
+        <section className="hive-plus-reading-groups">
+          <div className="hive-plus-reading-group">
+            <div className="hive-plus-reading-group__header">
+              <div className="hive-plus-unified-title">
+                <span className="hive-plus-unified-title__dot"></span>
+                <h4 className="hive-plus-unified-title__text is-group">Ambiente interno</h4>
               </div>
 
-              <span className="mms-reading-group__tag">Colmeia</span>
+              <span className="hive-plus-reading-group__tag">Colmeia</span>
             </div>
 
             <div style={cardsGrid(layoutMobile)}>
@@ -2423,14 +2423,14 @@ export default function App() {
             </div>
           </div>
 
-          <div className="mms-reading-group">
-            <div className="mms-reading-group__header">
-              <div className="mms-unified-title">
-                <span className="mms-unified-title__dot"></span>
-                <h4 className="mms-unified-title__text is-group">Ambiente externo</h4>
+          <div className="hive-plus-reading-group">
+            <div className="hive-plus-reading-group__header">
+              <div className="hive-plus-unified-title">
+                <span className="hive-plus-unified-title__dot"></span>
+                <h4 className="hive-plus-unified-title__text is-group">Ambiente externo</h4>
               </div>
 
-              <span className="mms-reading-group__tag">Ambiente</span>
+              <span className="hive-plus-reading-group__tag">Ambiente</span>
             </div>
 
             <div style={cardsGrid(layoutMobile)}>
@@ -2456,14 +2456,14 @@ export default function App() {
             </div>
           </div>
 
-          <div className="mms-reading-group">
-            <div className="mms-reading-group__header">
-              <div className="mms-unified-title">
-                <span className="mms-unified-title__dot"></span>
-                <h4 className="mms-unified-title__text is-group">Sistema</h4>
+          <div className="hive-plus-reading-group">
+            <div className="hive-plus-reading-group__header">
+              <div className="hive-plus-unified-title">
+                <span className="hive-plus-unified-title__dot"></span>
+                <h4 className="hive-plus-unified-title__text is-group">Sistema</h4>
               </div>
 
-              <span className="mms-reading-group__tag">Operação</span>
+              <span className="hive-plus-reading-group__tag">Operação</span>
             </div>
 
             <div style={cardsGrid(layoutMobile)}>
@@ -2489,7 +2489,7 @@ export default function App() {
           </div>
         </section>
 
-        <section className="mms-grid-2">
+        <section className="hive-plus-grid-2">
           <GraficoComparativoPanel
             titulo="Temperatura"
             tag={periodoTexto(periodoSelecionado)}
@@ -2517,20 +2517,20 @@ export default function App() {
           />
         </section>
 
-        <section className="mms-grid-2-bottom">
-          <div className="mms-panel">
-            <div className="mms-panel__header">
-              <div className="mms-title-row">
-                <span className="mms-title-row__accent"></span>
-                <h3 className="mms-title-row__text">Histórico de leituras</h3>
+        <section className="hive-plus-grid-2-bottom">
+          <div className="hive-plus-panel">
+            <div className="hive-plus-panel__header">
+              <div className="hive-plus-title-row">
+                <span className="hive-plus-title-row__accent"></span>
+                <h3 className="hive-plus-title-row__text">Histórico de leituras</h3>
               </div>
 
-              <span className="mms-panel__tag">{historicoFiltrado.length} leituras</span>
+              <span className="hive-plus-panel__tag">{historicoFiltrado.length} leituras</span>
             </div>
 
-            <div className="mms-table-wrapper">
+            <div className="hive-plus-table-wrapper">
               {layoutMobile ? (
-                <div className="mms-history-cards">
+                <div className="hive-plus-history-cards">
                   {historicoVisivel.map((item, index) => {
                     const statusTempInterna = getStatusMetrica(
                       "temperaturaInterna",
@@ -2551,61 +2551,61 @@ export default function App() {
                     const statusBat = getStatusMetrica("bateria", item.bateria);
 
                     return (
-                      <div key={index} className="mms-history-card">
-                        <div className="mms-history-card__time">
+                      <div key={index} className="hive-plus-history-card">
+                        <div className="hive-plus-history-card__time">
                           {item.hora}
                           <div style={{ fontSize: "11px", opacity: 0.7 }}>
                             {new Date(item.dataCompleta).toLocaleDateString("pt-BR")}
                           </div>
                         </div>
 
-                        <div className="mms-history-card__grid">
-                          <div className="mms-history-card__item">
-                            <span className="mms-history-card__label">Temp. interna</span>
-                            <span className="mms-history-card__value">
+                        <div className="hive-plus-history-card__grid">
+                          <div className="hive-plus-history-card__item">
+                            <span className="hive-plus-history-card__label">Temp. interna</span>
+                            <span className="hive-plus-history-card__value">
                               <span style={getCellStatusStyle(statusTempInterna)}>
                                 {item.temperaturaInterna} °C
                               </span>
                             </span>
                           </div>
 
-                          <div className="mms-history-card__item">
-                            <span className="mms-history-card__label">Umid. interna</span>
-                            <span className="mms-history-card__value">
+                          <div className="hive-plus-history-card__item">
+                            <span className="hive-plus-history-card__label">Umid. interna</span>
+                            <span className="hive-plus-history-card__value">
                               <span style={getCellStatusStyle(statusUmidInterna)}>
                                 {item.umidadeInterna} %
                               </span>
                             </span>
                           </div>
 
-                          <div className="mms-history-card__item">
-                            <span className="mms-history-card__label">Temp. externa</span>
-                            <span className="mms-history-card__value">
+                          <div className="hive-plus-history-card__item">
+                            <span className="hive-plus-history-card__label">Temp. externa</span>
+                            <span className="hive-plus-history-card__value">
                               <span style={getCellStatusStyle(statusTempExterna)}>
                                 {item.temperaturaExterna} °C
                               </span>
                             </span>
                           </div>
 
-                          <div className="mms-history-card__item">
-                            <span className="mms-history-card__label">Umid. externa</span>
-                            <span className="mms-history-card__value">
+                          <div className="hive-plus-history-card__item">
+                            <span className="hive-plus-history-card__label">Umid. externa</span>
+                            <span className="hive-plus-history-card__value">
                               <span style={getCellStatusStyle(statusUmidExterna)}>
                                 {item.umidadeExterna} %
                               </span>
                             </span>
                           </div>
 
-                          <div className="mms-history-card__item">
-                            <span className="mms-history-card__label">Peso</span>
-                            <span className="mms-history-card__value">
+                          <div className="hive-plus-history-card__item">
+                            <span className="hive-plus-history-card__label">Peso</span>
+                            <span className="hive-plus-history-card__value">
                               <span style={getPesoCellStyle()}>{item.peso} kg</span>
                             </span>
                           </div>
 
-                          <div className="mms-history-card__item">
-                            <span className="mms-history-card__label">Bateria</span>
-                            <span className="mms-history-card__value">
+                          <div className="hive-plus-history-card__item">
+                            <span className="hive-plus-history-card__label">Bateria</span>
+                            <span className="hive-plus-history-card__value">
                               <span style={getCellStatusStyle(statusBat)}>
                                 {item.bateria} V
                               </span>
@@ -2652,7 +2652,7 @@ export default function App() {
                 </div>
               ) : (
                 <>
-                  <table className="mms-table">
+                  <table className="hive-plus-table">
                     <thead>
                       <tr>
                         <th style={S.th}>Hora</th>
@@ -2764,17 +2764,17 @@ export default function App() {
             </div>
           </div>
 
-          <div className="mms-panel">
-            <div className="mms-panel__header">
-              <div className="mms-title-row">
-                <span className="mms-title-row__accent"></span>
-                <h3 className="mms-title-row__text">Resumo operacional</h3>
+          <div className="hive-plus-panel">
+            <div className="hive-plus-panel__header">
+              <div className="hive-plus-title-row">
+                <span className="hive-plus-title-row__accent"></span>
+                <h3 className="hive-plus-title-row__text">Resumo operacional</h3>
               </div>
 
-              <span className="mms-panel__tag"></span>
+              <span className="hive-plus-panel__tag"></span>
             </div>
 
-            <div className="mms-summary-list">
+            <div className="hive-plus-summary-list">
               <SummaryRow label="Colmeias monitoradas" value={String(colmeias.length)} />
               <SummaryRow label="Colmeias em alerta" value={String(colmeiasEmAlerta)} />
               <SummaryRow label="Espécie atual" value={colmeiaSelecionada.especie} />
@@ -2785,7 +2785,7 @@ export default function App() {
               />
             </div>
 
-            <div className="mms-insights-box">
+            <div className="hive-plus-insights-box">
               {insightsGerados.map((insight, index) => (
                 <InsightItem key={index} titulo={insight.titulo} texto={insight.texto} />
               ))}
@@ -2794,8 +2794,8 @@ export default function App() {
         </section>
 
         {graficoExpandido && (
-          <div className="mms-modal-overlay" onClick={() => setGraficoExpandido(null)}>
-            <div className="mms-modal-content" onClick={(e) => e.stopPropagation()}>
+          <div className="hive-plus-modal-overlay" onClick={() => setGraficoExpandido(null)}>
+            <div className="hive-plus-modal-content" onClick={(e) => e.stopPropagation()}>
               <div style={S.modalHeader}>
                 <div>
                   <h2 style={S.modalTitle}>
@@ -2818,29 +2818,29 @@ export default function App() {
               </div>
 
               <div
-                className="mms-modal-top-cards"
+                className="hive-plus-modal-top-cards"
                 style={{
                   display: "grid",
                   gridTemplateColumns: "repeat(2, 1fr)",
                   gap: "12px",
                 }}
               >
-                <div className="mms-modal-mini-card">
+                <div className="hive-plus-modal-mini-card">
                   <span>Colmeia</span>
                   <strong>{colmeiaSelecionada.nome}</strong>
                 </div>
 
-                <div className="mms-modal-mini-card">
+                <div className="hive-plus-modal-mini-card">
                   <span>Período</span>
                   <strong>{periodoTexto(periodoSelecionado)}</strong>
                 </div>
               </div>
 
-              <div className="mms-chart-body mms-chart-body--expanded">
+              <div className="hive-plus-chart-body hive-plus-chart-body--expanded">
                 {graficoExpandido === "temperaturaComparativa" ? (
                   <>
-                    <div className="mms-compare-stats mms-compare-stats--expanded">
-                      <div className="mms-compare-stat-card">
+                    <div className="hive-plus-compare-stats hive-plus-compare-stats--expanded">
+                      <div className="hive-plus-compare-stat-card">
                         <span>Temperatura interna</span>
                         <strong>
                           Média:{" "}
@@ -2863,7 +2863,7 @@ export default function App() {
                         </small>
                       </div>
 
-                      <div className="mms-compare-stat-card">
+                      <div className="hive-plus-compare-stat-card">
                         <span>Temperatura externa</span>
                         <strong>
                           Média:{" "}
@@ -2898,8 +2898,8 @@ export default function App() {
                   </>
                 ) : graficoExpandido === "umidadeComparativa" ? (
                   <>
-                    <div className="mms-compare-stats mms-compare-stats--expanded">
-                      <div className="mms-compare-stat-card">
+                    <div className="hive-plus-compare-stats hive-plus-compare-stats--expanded">
+                      <div className="hive-plus-compare-stat-card">
                         <span>Umidade interna</span>
                         <strong>
                           Média:{" "}
@@ -2922,7 +2922,7 @@ export default function App() {
                         </small>
                       </div>
 
-                      <div className="mms-compare-stat-card">
+                      <div className="hive-plus-compare-stat-card">
                         <span>Umidade externa</span>
                         <strong>
                           Média:{" "}
@@ -2967,7 +2967,7 @@ export default function App() {
                         marginBottom: "18px",
                       }}
                     >
-                      <div className="mms-modal-mini-card">
+                      <div className="hive-plus-modal-mini-card">
                         <span>Último valor</span>
                         <strong>
                           {formatarValorGrafico(
@@ -2977,7 +2977,7 @@ export default function App() {
                         </strong>
                       </div>
 
-                      <div className="mms-modal-mini-card">
+                      <div className="hive-plus-modal-mini-card">
                         <span>Média</span>
                         <strong>
                           {formatarValorGrafico(
@@ -2987,7 +2987,7 @@ export default function App() {
                         </strong>
                       </div>
 
-                      <div className="mms-modal-mini-card">
+                      <div className="hive-plus-modal-mini-card">
                         <span>Mínimo</span>
                         <strong>
                           {formatarValorGrafico(
@@ -2997,7 +2997,7 @@ export default function App() {
                         </strong>
                       </div>
 
-                      <div className="mms-modal-mini-card">
+                      <div className="hive-plus-modal-mini-card">
                         <span>Máximo</span>
                         <strong>
                           {formatarValorGrafico(
@@ -3007,7 +3007,7 @@ export default function App() {
                         </strong>
                       </div>
 
-                      <div className="mms-modal-mini-card">
+                      <div className="hive-plus-modal-mini-card">
                         <span>Tendência</span>
                         <strong>{tendenciaGraficoExpandido || "--"}</strong>
                       </div>
