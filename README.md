@@ -2,6 +2,20 @@
 
 Web dashboard for visualizing environmental data collected from IoT devices in the MMS monitoring system.
 
+> Part of the **[Smart Beehive Monitoring System](https://github.com/rusilveira/rusilveira#smart-beehive-monitoring-system)**: [sensor node](https://github.com/rusilveira/esp32-beehive-sensor-node-lora) · [LoRa link](https://github.com/rusilveira/esp32-lora-reliable-link) · [gateway](https://github.com/rusilveira/esp32-beehive-lora-gateway) · [API](https://github.com/rusilveira/mms-backend) · **dashboard**
+
+**[Live demo](https://mms-frontend-ten.vercel.app)**
+
+---
+
+## Problem
+
+Raw sensor values are hard to interpret at a glance, especially from a phone in the field.
+
+## Solution
+
+A React dashboard that classifies every reading as normal, attention or critical using biological and engineering thresholds, shows history charts by period, detects when a hive goes offline and turns the data into short plain-language insights.
+
 ---
 
 ## Overview
@@ -159,11 +173,11 @@ This repository represents the **visualization layer** of the MMS system, respon
 
 ---
 
+## Author
+
+**Ruan Silveira** · Industrial instrumentation technician and Electrical Engineering student  
+[GitHub](https://github.com/rusilveira) · [LinkedIn](https://www.linkedin.com/in/ruan-silveira-494110257)
+
 ## License
 
-This project is protected under a custom license.
-
-It is provided for viewing and educational purposes only.
-Unauthorized use, copying, modification, or distribution is strictly prohibited.
-
-See the LICENSE file for more details.
+MIT. See [LICENSE](LICENSE).
