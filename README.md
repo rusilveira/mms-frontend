@@ -4,7 +4,7 @@ Web dashboard for visualizing environmental data collected from IoT devices in t
 
 > Part of the **[Smart Beehive Monitoring System](https://github.com/rusilveira/rusilveira#smart-beehive-monitoring-system)**: [sensor node](https://github.com/rusilveira/esp32-beehive-sensor-node-lora) · [LoRa link](https://github.com/rusilveira/esp32-lora-reliable-link) · [gateway](https://github.com/rusilveira/esp32-beehive-lora-gateway) · [API](https://github.com/rusilveira/mms-backend) · **dashboard**
 
-**[Live demo](https://mms-frontend-ten.vercel.app)**
+**[Live demo](https://hive-plus-dashboard.vercel.app)**
 
 ---
 
@@ -88,7 +88,7 @@ http://localhost:3000
 ## Deployment
 
 Production version:
-https://mms-frontend-ten.vercel.app
+https://hive-plus-dashboard.vercel.app
 
 ---
 
